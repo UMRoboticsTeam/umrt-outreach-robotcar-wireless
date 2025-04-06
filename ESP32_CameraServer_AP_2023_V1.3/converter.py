@@ -3,6 +3,9 @@ import io
 import sys
 import re
 
+# files are hardcoded
+# TODO: make it a program parameter
+
 TEXT_FILE = "index_ov3660_html_gz.txt"
 HTML_FILE = "index_ov3660.html"
 
@@ -21,7 +24,7 @@ def txt_to_html():
     with open(HTML_FILE, "w", encoding="utf-8") as f:
         f.write(html)
 
-    print(f"[✔] Decompressed HTML saved as: {HTML_FILE}")
+    print(f"HTML Bytes successfully decompressed and written to: {HTML_FILE}")
 
 
 def html_to_txt():
@@ -51,7 +54,7 @@ def html_to_txt():
         f.write(hex_data)
         f.write("\n};\n")
 
-    print(f"[✔] Header-style GZ data written to: {TEXT_FILE}")
+    print(f"HTML successfully compressed and written to: {TEXT_FILE}")
 
 
 

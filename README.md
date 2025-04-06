@@ -1,6 +1,14 @@
 # umrt-outreach-robotcar-wireless
-
 Showcase program for the outreach car with wireless camera and control with the Elegoo Smart Robot Car Kit v4.0
+
+### Elegoo Smart Robot Car Kit v4.0
+
+![alt text](docs/smartrobotv4.0.png)
+
+### Customized UI
+
+![alt text](docs/complete_ui.png)
+
 
 Has programs for:
 * ESPCAM wireless webserver
@@ -64,7 +72,7 @@ Nothing much has changed from the template code given by Elegoo
 
 # Usage
 1. Turn on the power supply on the car, which powers both the car controller and the camera
-2. Connect to the wifi called ```umrt-car-XXXXXXXXXXXX```
+2. Connect to the wifi called ```UMRT-CAR-XXXXXXXXXXXX```
 ![alt text](docs/wifi.png)
 3. Open a browser and connect to ```194.168.4.1```
 4. Click ```Start Stream``` to view live camera
