@@ -21,7 +21,9 @@ The template programs change depending on your specific parts.
 * Gyro Module: ```MPU6050```
 
 
-## ESP Camera Arduino IDE Setup
+<!-- ## ESP Camera Arduino IDE Setup -->
+# ESP32_CameraServer_AP_2023_v1.3
+Arduion IDE Configuration:
 * Board Manager > Install ```esp32 by Espressif Systems v2.0.14```
 * Configure Tools:
   * Board: ```ESP32S3 Dev Module```
@@ -30,10 +32,8 @@ The template programs change depending on your specific parts.
   * Partition Scheme: ```8M with spiffs (3MB APP/1.5MB SPIFFS)```
   * PSRAM ```OPI PSRAM```
 
-## RobotCar Controller Arduino IDE Setup
-* Board: ```Arduino UNO```
 
-
+The served HTML handles all of the controls functionality. Based on the input, it will send json commands to the camera which forwards it to the robot car controller. The HTML file itself is stored as compressed GZ bytes under `camera_index.h`. To convert between a working HTML file and compressed bytes, use `converter.py`
 
 
 ## converter.py
@@ -43,10 +43,46 @@ Quick tool to convert HTML into compressed GZ bytes
 > python ./converter.py html_to_txt
 ```
 
-Compresses **index_ov3660.html** into **index_ov3660_html_gz.txt**.
-Now you can copy and paste the output into the bottom of ```camera_index.h``` which stores all of the compressed HTML files.
+Compresses **index_ov3660.html** into **index_ov3660_html_gz.txt**. It labels the variables as `index_ov3660_html_gz_CEP` and `index_ov3660_html_gz_len_CEP`.
+Now you can copy and paste (and replace) the variables at the bottom of `camera_index.h` which stores all of the compressed HTML files.
 
 ```
 > python ./converter.py txt_to_html
 ```
 The decompression process if desired.
+
+
+# SmartRobotCarV4.0_V1_20230201
+Arduino IDE Configuration:
+* Board: ```Arduino UNO```
+
+Nothing much has changed from the template code given by Elegoo
+
+
+
+
+
+# Usage
+1. Turn on the power supply on the car, which powers both the car controller and the camera
+2. Connect to the wifi called ```umrt-car-XXXXXXXXXXXX```
+![alt text](docs/wifi.png)
+3. Open a browser and connect to ```194.168.4.1```
+4. Click ```Start Stream``` to view live camera
+![alt text](docs/start_stream.png)
+5. Configure the camera settings or control the robot with your keyboard
+  
+| Key | Command |
+|---|-----|
+| W | Move Forward |
+| S | Move Backward |
+| A | Turn Left |
+| D | Turn Right |
+| Q | Turn Camera Left 30 deg |
+| E | Turn Camera Right 30 deg |
+| 1 | Set Speed LOW (55) |
+| 2 | Set Speed MED (155) |
+| 3 | Set Speed HIGH (255) |
+| Z, X, C | Emergency Stop |
+
+## Troubleshooting:
+If input is a little laggy, try turning it off and on again
