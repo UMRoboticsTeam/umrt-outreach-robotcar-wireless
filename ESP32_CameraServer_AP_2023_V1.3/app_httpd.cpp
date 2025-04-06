@@ -20,6 +20,9 @@
 #include "sdkconfig.h"
 #include "camera_index.h"
 
+#include "Arduino.h"  // added for serial print
+
+
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
 #include "esp32-hal-log.h"
 #endif
@@ -1138,7 +1141,8 @@ static esp_err_t index_handler(httpd_req_t *req) {
     sensor_t *s = esp_camera_sensor_get();
     if (s->id.PID == OV3660_PID)
     {
-        return httpd_resp_send(req, (const char *)index_ov3660_html_gz, index_ov3660_html_gz_len);
+        // return httpd_resp_send(req, (const char *)index_ov3660_html_gz, index_ov3660_html_gz_len);
+        return httpd_resp_send(req, (const char *)index_ov3660_html_gz_CEP, index_ov3660_html_gz_len_CEP);
     }
     return httpd_resp_send(req, (const char *)index_ov2640_html_gz, index_ov2640_html_gz_len);
 
@@ -1204,6 +1208,59 @@ static esp_err_t Test2_handler(httpd_req_t *req)
     //  httpd_resp_send(req, (const char *)"index", 5);
     httpd_resp_send(req, (const char *)"index", 5);
     return ESP_OK;
+}
+
+
+
+// connor custom handlers handler
+static esp_err_t keypress_handler(httpd_req_t *req) {
+  char *buf = NULL;
+  char key[8]; 
+
+  
+  if (parse_get(req, &buf) != ESP_OK) {
+      return ESP_FAIL;
+  }
+
+  if (httpd_query_key_value(buf, "key", key, sizeof(key)) != ESP_OK) {
+      free(buf);
+      httpd_resp_send_404(req);
+      return ESP_FAIL;
+  }
+  free(buf);
+
+
+  Serial.println("Key pressed: " + String(key));  // test print
+
+  Serial2.print(key); // send to controller over UART
+  Serial2.print("\n"); 
+
+  // send 200 ok to web client
+  httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+  return httpd_resp_send(req, NULL, 0);
+}
+static esp_err_t json_command_handler(httpd_req_t *req) {
+  char buf[256]; // set buffer
+  int ret;
+
+  ret = httpd_req_recv(req, buf, sizeof(buf) - 1);
+  if (ret <= 0) {
+      if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
+          httpd_resp_send_408(req);
+      }
+      return ESP_FAIL;
+  }
+  buf[ret] = '\0';
+
+  Serial.println("Received JSON command: ");
+  Serial.println(buf);
+
+  Serial2.print(buf);
+  Serial2.print("\n");
+
+  // send 200 ok to web client
+  httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+  return httpd_resp_send(req, "Command forwarded to motor controller", HTTPD_RESP_USE_STRLEN);
 }
 
 
@@ -1376,6 +1433,38 @@ void startCameraServer() {
 
   ra_filter_init(&ra_filter, 20);
 
+
+
+
+// connor custom keypress endpoint
+  httpd_uri_t keypress_uri = {
+    .uri = "/keypress",
+    .method = HTTP_GET,
+    .handler = keypress_handler,
+    .user_ctx = NULL
+#ifdef CONFIG_HTTPD_WS_SUPPORT
+    ,
+    .is_websocket = true,
+    .handle_ws_control_frames = false,
+    .supported_subprotocol = NULL
+#endif
+  };
+
+  // define endpoint and handler for json commands
+httpd_uri_t json_command_uri = {
+  .uri = "/json_command",
+  .method = HTTP_POST,
+  .handler = json_command_handler,
+  .user_ctx = NULL
+#ifdef CONFIG_HTTPD_WS_SUPPORT
+  ,
+  .is_websocket = true,
+  .handle_ws_control_frames = false,
+  .supported_subprotocol = NULL
+#endif
+};
+
+
 #if CONFIG_ESP_FACE_RECOGNITION_ENABLED
   recognizer.set_partition(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_ANY, "fr");
 
@@ -1395,9 +1484,13 @@ void startCameraServer() {
     // httpd_register_uri_handler(camera_httpd, &greg_uri);
     // httpd_register_uri_handler(camera_httpd, &pll_uri);
     // httpd_register_uri_handler(camera_httpd, &win_uri);
-        httpd_register_uri_handler(camera_httpd, &Test_uri);
-        httpd_register_uri_handler(camera_httpd, &Test1_uri);
-        httpd_register_uri_handler(camera_httpd, &Test2_uri);
+    httpd_register_uri_handler(camera_httpd, &Test_uri);
+    httpd_register_uri_handler(camera_httpd, &Test1_uri);
+    httpd_register_uri_handler(camera_httpd, &Test2_uri);
+
+
+    httpd_register_uri_handler(camera_httpd, &keypress_uri);      // add keypress endpoint
+    httpd_register_uri_handler(camera_httpd, &json_command_uri);  // add json_command endpoint
   }
 
   config.server_port += 1;

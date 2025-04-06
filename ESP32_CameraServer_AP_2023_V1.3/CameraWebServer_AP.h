@@ -22,7 +22,7 @@ public:
 private:
   // const char *ssid = "ESP32_CAM";
   // const char *password = "elegoo2020";
-  char *ssid = "ELEGOO-";
+  char *ssid = "UMRT-CAR-";
   //char *password = "elegoo2020";
   char *password = "";
 };
