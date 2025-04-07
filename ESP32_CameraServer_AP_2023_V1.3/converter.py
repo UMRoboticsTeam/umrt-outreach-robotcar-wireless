@@ -6,8 +6,8 @@ import re
 # files are hardcoded
 # TODO: make it a program parameter
 
-TEXT_FILE = "index_ov3660_html_gz.txt"
-HTML_FILE = "index_ov3660.html"
+TEXT_FILE = "camera_index.h"
+HTML_FILE = "camera_index.html"
 
 def txt_to_html():
     with open(TEXT_FILE, "r") as f:
