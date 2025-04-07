@@ -29,6 +29,15 @@ The template programs change depending on your specific parts.
 * Gyro Module: ```MPU6050```
 
 
+
+# SmartRobotCarV4.0_V1_20230201
+Arduino IDE Configuration:
+* Board: ```Arduino UNO```
+
+Nothing much has changed from the template code given by Elegoo
+
+
+
 <!-- ## ESP Camera Arduino IDE Setup -->
 # ESP32_CameraServer_AP_2023_v1.3
 Arduion IDE Configuration:
@@ -40,31 +49,27 @@ Arduion IDE Configuration:
   * Partition Scheme: ```8M with spiffs (3MB APP/1.5MB SPIFFS)```
   * PSRAM ```OPI PSRAM```
 
+The program creates a REST API to send json through to UART to the Arduino Uno to control the motors.
 
 The served HTML handles all of the controls functionality. Based on the input, it will send json commands to the camera which forwards it to the robot car controller. The HTML file itself is stored as compressed GZ bytes under `camera_index.h`. To convert between a working HTML file and compressed bytes, use `converter.py`
 
 
 ## converter.py
 Quick tool to convert HTML into compressed GZ bytes
-#### Usage:
+
+To compress **camera_index.html** into **camera_index.h**
 ```
 > python ./converter.py html_to_txt
 ```
 
-Compresses **index_ov3660.html** into **index_ov3660_html_gz.txt**. It labels the variables as `index_ov3660_html_gz_CEP` and `index_ov3660_html_gz_len_CEP`.
-Now you can copy and paste (and replace) the variables at the bottom of `camera_index.h` which stores all of the compressed HTML files.
 
+`camera_index.h` and its variables are referenced during compilation, which stores all of the compressed HTML files.
+
+To run the decompression process (`camera_index.h` to `camera_index.html`):
 ```
 > python ./converter.py txt_to_html
 ```
-The decompression process if desired.
 
-
-# SmartRobotCarV4.0_V1_20230201
-Arduino IDE Configuration:
-* Board: ```Arduino UNO```
-
-Nothing much has changed from the template code given by Elegoo
 
 
 
@@ -73,10 +78,14 @@ Nothing much has changed from the template code given by Elegoo
 # Usage
 1. Turn on the power supply on the car, which powers both the car controller and the camera
 2. Connect to the wifi called ```UMRT-CAR-XXXXXXXXXXXX```
+
 ![alt text](docs/wifi.png)
+
 3. Open a browser and connect to ```194.168.4.1```
 4. Click ```Start Stream``` to view live camera
+
 ![alt text](docs/start_stream.png)
+
 5. Configure the camera settings or control the robot with your keyboard
   
 | Key | Command |
