@@ -407,6 +407,11 @@
                 padding: 0 1rem;
                 justify-content: space-between;
             }
+            @media only screen and (max-width: 900px) {
+              #header {
+                display: none;
+              }
+            }
 
             #content {
                 flex: 1;
@@ -469,11 +474,13 @@
             #controls {
                 /* height: 16%; */
                 border-top: 1px solid #ccc;
-                padding: 1rem;
+                /* padding: 1rem; */
+                padding: 0.4rem 0;
                 /* box-sizing: border-box; */
                 display: flex;
                 /* align-items: center; */
                 justify-content: space-around;
+                user-select: none;
             }
 
             .key-group {
@@ -482,8 +489,10 @@
                 gap: 0.3rem;
                 user-select: none;
                 font-family: sans-serif;
-                margin: 0 50px;
+                /* margin: 0 50px; */
                 text-align: center;
+                justify-content: end;
+                user-select: none;
             }
 
             .key-group .row {
@@ -529,7 +538,7 @@
             </div>
             <div id="content">
                 <div id="sidebar">
-                    <input type="checkbox" id="nav-toggle-cb" checked="checked">
+                    <input type="checkbox" id="nav-toggle-cb">
                     <nav id="menu">
 
                         <section id="xclk-section" class="nothidden">
@@ -1051,22 +1060,6 @@
                     <div id="controls">
                         <!-- <h1>Controls</h1> -->
                         <div class="key-group">
-                            <h3>Speed</h3>
-                            <div class="row">
-                              <div class="key" data-key="1">1</div>
-                              <div class="key" data-key="2">2</div>
-                              <div class="key" data-key="3">3</div>
-                            </div>
-                        </div>
-                        <div class="key-group">
-                            <h3>Servo</h3>
-                            <div class="row">
-                              <div class="key" data-key="q">Q</div>
-                              <div class="key" data-key="e">E</div>
-                            </div>
-                        </div>
-                        <div class="key-group">
-                            <h3>Movement</h3>
                             <div class="row">
                               <div class="key" data-key="w">W</div>
                             </div>
@@ -1075,14 +1068,33 @@
                               <div class="key" data-key="s">S</div>
                               <div class="key" data-key="d">D</div>
                             </div>
+                            <a>Movement</a>
                         </div>
                         <div class="key-group">
-                            <h3>Emerg. Stop</h3>
+                          <div class="row">
+                            <div class="key" data-key="q">Q</div>
+                            <div class="key" data-key="e">E</div>
+                          </div>
+                          <a>Servo</a>
+                        </div>
+                        <div class="key-group">
+                            <div class="row">
+                              <div class="key" data-key="1">1</div>
+                              <div class="key" data-key="2">2</div>
+                              <div class="key" data-key="3">3</div>
+                            </div>
+                            <a>Speed</a>
+                        </div>
+                        <div class="key-group">
                             <div class="row">
                               <div class="key" data-key="z">Z</div>
                               <div class="key" data-key="x">X</div>
                               <div class="key" data-key="c">C</div>
+                              <!-- <button class="key" data-key="z">Z</button>
+                              <button class="key" data-key="x">X</button>
+                              <button class="key" data-key="c">C</button> -->
                             </div>
+                            <a>Emerg. Stop</a>
                           </div>
                           
                     </div>
@@ -1688,7 +1700,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
   };
 
   var animationKeys = ['1','2','3','q','e','w','a','s','d','z','x','c'];
-
   document.addEventListener('keydown', function (event) {
     if (event.repeat) return; // only do actions on first key down - no holding
 
@@ -1782,7 +1793,67 @@ document.addEventListener('DOMContentLoaded', function (event) {
         const target = document.querySelector(`.key[data-key="${event.key}"]`);
         if (target) target.classList.remove('active');
     }   
+  });
+
+
+  // set up buttons for regular clicking
+  // mousedown/mouseup
+  let activeKey = null;
+
+  const key_buttons = document.querySelectorAll('.key')
+  key_buttons.forEach((button) => {
+    button.addEventListener('mousedown', () => {
+      activeKey = button;
+      button.classList.add('active');
+      // console.log("CLICKED");
+
+      let key = button.getAttribute('data-key');
+      if (key) {
+        const event = new KeyboardEvent("keydown", {
+          key: key,
+        });
+        document.dispatchEvent(event);
+      }
+
+
+    });
+    button.addEventListener('touchstart', () => {
+      activeKey = button;
+      button.classList.add('active');
+      // console.log("RELEASED");
+
+      
+      let key = button.getAttribute('data-key');
+      if (key) {
+        const event = new KeyboardEvent("keydown", {
+          key: key,
+        });
+        document.dispatchEvent(event);
+      }
+    }, { passive: true });
   })
+  
+
+  const release = () => {
+    if (activeKey) {
+      
+      let key = activeKey.getAttribute('data-key');
+      if (key) {
+        const event = new KeyboardEvent("keyup", {
+          key: key,
+        });
+        document.dispatchEvent(event);
+      }
+
+      activeKey.classList.remove('active');
+      activeKey = null;
+    }
+  }
+
+  window.addEventListener('mouseup', release);
+  window.addEventListener('touchend', release);
+
+
 
 
   startStream();  // temp initial start stream
