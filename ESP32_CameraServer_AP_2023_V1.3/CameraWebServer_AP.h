@@ -11,6 +11,7 @@
 #define _CameraWebServer_AP_H
 #include "esp_camera.h"
 #include <WiFi.h>
+#include "config.h"
 
 class CameraWebServer_AP
 {
@@ -22,9 +23,11 @@ public:
 private:
   // const char *ssid = "ESP32_CAM";
   // const char *password = "elegoo2020";
-  char *ssid = "UMRT-CAR-";
+  // char *ssid = "UMRT-CAR-";
+  char *ssid = WIFI_SSID;
   //char *password = "elegoo2020";
-  char *password = "";
+  // char *password = "";
+  char *password = WIFI_PWD;
 };
 
 #endif

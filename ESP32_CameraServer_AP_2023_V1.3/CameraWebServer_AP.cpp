@@ -34,6 +34,7 @@
 #include "CameraWebServer_AP.h"
 #include "camera_pins.h"
 #include "esp_system.h"
+#include "config.h"
 
 // #include "BLEAdvertisedDevice.h"
 // BLEAdvertisedDevice _BLEAdvertisedDevice;
@@ -154,7 +155,7 @@ void CameraWebServer_AP::CameraWebServer_AP_Init(void)
 
   WiFi.setTxPower(WIFI_POWER_19_5dBm);
   WiFi.mode(WIFI_AP);
-  WiFi.softAP(mac_default, password, 5);
+  WiFi.softAP(String(ssid).c_str(), password, WIFI_CHANNEL);
   startCameraServer();
 
   Serial.print("Camera Ready! Use 'http://");
