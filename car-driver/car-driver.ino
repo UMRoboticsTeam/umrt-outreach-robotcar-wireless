@@ -1,135 +1,113 @@
-// https://github.com/intellar/oled_eye_display
-// https://github.com/intellar/oled_eye_display/blob/main/arduino/control_display_u8g2/control_display_u8g2.ino
+//***********************************************************************************************
+//  This example shows how to use the basic methods of the FluxGarage Robo Eyes library. 
+//
+//  Hardware: You'll need a breadboard, a microcontroller such as arduino nano v3 or better an esp32, 
+//  an I2C oled display with sh1106 chip and some jumper wires.
+//
+//  Use the dedicated I2C pins of your microcontroller, on ESP32-WROOM-32 module use pin 22 for SCL and pin 21 for SDA.
+//  Please note: This example turned out to have slow refresh rates on Arduino Uno. Did not find a fix yet.
+//  
+//  Published in January 2025 by Dennis Hoelscher, FluxGarage
+//  www.youtube.com/@FluxGarage
+//  www.fluxgarage.com
+//
+//***********************************************************************************************
+
+// #include <SPI.h>
+// #include <Wire.h>
+
+// #include <Adafruit_GFX.h>
+// #include <Adafruit_SH110X.h>
+#include <U8g2lib.h>
+
+/* Uncomment the initialize the I2C address , uncomment only one, If you get a totally blank screen try the other*/
+#define i2c_Address 0x3c //initialize with the I2C addr 0x3C Typically eBay OLED's
+// #define i2c_Address 0x3d //initialize with the I2C addr 0x3D Typically Adafruit OLED's
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define OLED_RESET -1   //   QT-PY / XIAO
+
+// Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+// U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 8, /* reset=*/ 9);
+// Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+// https://github.com/adafruit/Adafruit_SH110x/blob/master/Adafruit_SH1106G.cpp
+// (width, height, mosi, sclk, dc, rst, cs)
+// Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, 11, 13, 8, 9, 10);
+// Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &SPI, 8, 9, 10);
+
+// u8g2 LIB
+U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 8, /* reset=*/ 9);
+// U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 8, /* reset=*/ 9);
+
+// #include <FluxGarage_RoboEyes.h>
+// #include "FluxGarage_RoboEyes.h"
+#include "FluxGarage_u8g2.h"
+roboEyes roboEyes; // create RoboEyes instance
 
 
-
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes?tab=readme-ov-file
-// https://github.com/FluxGarage/RoboEyes
-
-#include "robot-eyes.h"
-#include <SPI.h>
-// #include <U8g2lib.h>
-
-void setup() {
-  // put your setup code here, to run once:
+void setup()   {
+  Serial.begin(9600);
+  Serial.println("Starting...");
+  delay(250); // wait for the OLED to power up
+  // display.begin(i2c_Address, true); // Address 0x3C default
+  //display.setContrast (0); // dim display
+  // if (!display.begin()) {
+  //   Serial.println("Display initialization failed!");
+  //   while (1);
+  // }
   u8g2.setI2CAddress(0x78);
   u8g2.setDisplayRotation(U8G2_R0);
   u8g2.begin();
 
-  sleep();
-  u8g2.setFont(u8g2_font_ncenB10_tr);
+  // Startup robo eyes
+  roboEyes.begin(SCREEN_WIDTH, SCREEN_HEIGHT, 100); // screen-width, screen-height, max framerate
+
+  // Define some automated eyes behaviour
+  roboEyes.setAutoblinker(ON, 3, 2); // Start auto blinker animation cycle -> bool active, int interval, int variation -> turn on/off, set interval between each blink in full seconds, set range for random interval variation in full seconds
+  roboEyes.setIdleMode(ON, 2, 2); // Start idle animation cycle (eyes looking in random directions) -> turn on/off, set interval between each eye repositioning in full seconds, set range for random time interval variation in full seconds
   
-  u8g2.drawStr(0,10,"intellar.ca");
-  
-  display_display();
-  delay(3000);
-  
-}
+  // Define eye shapes, all values in pixels
+  //roboEyes.setWidth(36, 36); // byte leftEye, byte rightEye
+  //roboEyes.setHeight(36, 36); // byte leftEye, byte rightEye
+  //roboEyes.setBorderradius(8, 8); // byte leftEye, byte rightEye
+  //roboEyes.setSpacebetween(10); // int space -> can also be negative
+
+  // Cyclops mode
+  //roboEyes.setCyclops(ON); // bool on/off -> if turned on, robot has only on eye
+
+  // Define mood, curiosity and position
+  //roboEyes.setMood(DEFAULT); // mood expressions, can be TIRED, ANGRY, HAPPY, DEFAULT
+  //roboEyes.setPosition(DEFAULT); // cardinal directions, can be N, NE, E, SE, S, SW, W, NW, DEFAULT (default = horizontally and vertically centered)
+  //roboEyes.setCuriosity(ON); // bool on/off -> when turned on, height of the outer eyes increases when moving to the very left or very right
+
+  // Set horizontal or vertical flickering
+  //roboEyes.setHFlicker(ON, 2); // bool on/off, byte amplitude -> horizontal flicker: alternately displacing the eyes in the defined amplitude in pixels
+  //roboEyes.setVFlicker(ON, 2); // bool on/off, byte amplitude -> vertical flicker: alternately displacing the eyes in the defined amplitude in pixels
+
+  // Play prebuilt oneshot animations
+  //roboEyes.anim_confused(); // confused - eyes shaking left and right
+  //roboEyes.anim_laugh(); // laughing - eyes shaking up and down
+  Serial.println("End of startup");
+} // end of setup
 
 
 
-void launch_animation_with_index(int animation_index)
-{
 
-  
-
-  if(animation_index>max_animation_index)
-  {
-    animation_index=8;
-  }
-
-  switch(animation_index)
-      {
-        case 0:
-          wakeup();
-          break;
-        case 1:
-          reset_eyes(true);
-          break;
-        case 2:
-          move_right_big_eye();
-          break;
-        case 3:
-          move_left_big_eye();
-          break;
-        case 4:      
-          blink(12);
-          delay(1000);
-          break;
-        case 5:
-          blink(12);
-          break;
-        case 6:
-          happy_eye();      
-          break;
-        case 7:
-          sleep();
-          break;
-        case 8:
-          break;
-          reset_eyes(true);
-          for(int i=0;i<20;i++)
-          { 
-            int dir_x = random(-1, 2);
-            int dir_y = random(-1, 2);
-            saccade(dir_x,dir_y);
-            delay(1);
-            saccade(-dir_x,-dir_y);
-            delay(1);     
-          }
-          break;
-          
-      }
-}
-
+// extern int __heap_start, *__brkval;
+// int freeMemory() {
+//   int v;
+//   return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
+// }
 
 
 void loop() {
+  // Serial.println("Starting loop...");
+  // Serial.print("Free memory: ");
+  // Serial.println(freeMemory()); // Monitor free memory
 
-  if(demo_mode == 1)
-  {
-    // cycle animations
-    launch_animation_with_index(current_animation_index++);
-    if(current_animation_index > max_animation_index)
-    {
-      current_animation_index = 0;
-    }
-  }
-
-  
-  //send "Ax" for animation x  (ex. A2 will launch animation 2)
-  if(Serial.available()) {
-    String data = Serial.readString();
-    data.trim();
-    char cmd = data[0];
-    
-    if(cmd == 'A')
-    {
-      demo_mode = 0;
-
-      String arg = data.substring(1,data.length());
-      int anim = arg.toInt();
-      launch_animation_with_index(anim);
-      Serial.print(cmd);
-      Serial.print(arg);   
-    }
-  }
-
-
+  roboEyes.update(); // update eyes drawings
+  // Dont' use delay() here in order to ensure fluid eyes animations.
+  // Check the AnimationSequences example for common practices.
+  // delay(500);
 }
