@@ -81,46 +81,46 @@
  //*********************************************************************************************
  
  // EYE LEFT - size and border radius
- int eyeLwidthDefault = 36;
- int eyeLheightDefault = 36;
- int eyeLwidthCurrent = eyeLwidthDefault;
- int eyeLheightCurrent = 1; // start with closed eye, otherwise set to eyeLheightDefault
- int eyeLwidthNext = eyeLwidthDefault;
- int eyeLheightNext = eyeLheightDefault;
- int eyeLheightOffset = 0;
+ byte eyeLwidthDefault = 36;
+ byte eyeLheightDefault = 36;
+ byte eyeLwidthCurrent = eyeLwidthDefault;
+ byte eyeLheightCurrent = 1; // start with closed eye, otherwise set to eyeLheightDefault
+ byte eyeLwidthNext = eyeLwidthDefault;
+ byte eyeLheightNext = eyeLheightDefault;
+ byte eyeLheightOffset = 0;
  // Border Radius
  byte eyeLborderRadiusDefault = 8;
  byte eyeLborderRadiusCurrent = eyeLborderRadiusDefault;
  byte eyeLborderRadiusNext = eyeLborderRadiusDefault;
  
  // EYE RIGHT - size and border radius
- int eyeRwidthDefault = eyeLwidthDefault;
- int eyeRheightDefault = eyeLheightDefault;
- int eyeRwidthCurrent = eyeRwidthDefault;
- int eyeRheightCurrent = 1; // start with closed eye, otherwise set to eyeRheightDefault
- int eyeRwidthNext = eyeRwidthDefault;
- int eyeRheightNext = eyeRheightDefault;
- int eyeRheightOffset = 0;
+ byte eyeRwidthDefault = eyeLwidthDefault;
+ byte eyeRheightDefault = eyeLheightDefault;
+ byte eyeRwidthCurrent = eyeRwidthDefault;
+ byte eyeRheightCurrent = 1; // start with closed eye, otherwise set to eyeRheightDefault
+ byte eyeRwidthNext = eyeRwidthDefault;
+ byte eyeRheightNext = eyeRheightDefault;
+ byte eyeRheightOffset = 0;
  // Border Radius
  byte eyeRborderRadiusDefault = 8;
  byte eyeRborderRadiusCurrent = eyeRborderRadiusDefault;
  byte eyeRborderRadiusNext = eyeRborderRadiusDefault;
  
  // EYE LEFT - Coordinates
- int eyeLxDefault = ((screenWidth)-(eyeLwidthDefault+spaceBetweenDefault+eyeRwidthDefault))/2;
- int eyeLyDefault = ((screenHeight-eyeLheightDefault)/2);
- int eyeLx = eyeLxDefault;
- int eyeLy = eyeLyDefault;
- int eyeLxNext = eyeLx;
- int eyeLyNext = eyeLy;
+ byte eyeLxDefault = ((screenWidth)-(eyeLwidthDefault+spaceBetweenDefault+eyeRwidthDefault))/2;
+ byte eyeLyDefault = ((screenHeight-eyeLheightDefault)/2);
+ byte eyeLx = eyeLxDefault;
+ byte eyeLy = eyeLyDefault;
+ byte eyeLxNext = eyeLx;
+ byte eyeLyNext = eyeLy;
  
  // EYE RIGHT - Coordinates
- int eyeRxDefault = eyeLx+eyeLwidthCurrent+spaceBetweenDefault;
- int eyeRyDefault = eyeLy;
- int eyeRx = eyeRxDefault;
- int eyeRy = eyeRyDefault;
- int eyeRxNext = eyeRx;
- int eyeRyNext = eyeRy;
+ byte eyeRxDefault = eyeLx+eyeLwidthCurrent+spaceBetweenDefault;
+ byte eyeRyDefault = eyeLy;
+ byte eyeRx = eyeRxDefault;
+ byte eyeRy = eyeRyDefault;
+ byte eyeRxNext = eyeRx;
+ byte eyeRyNext = eyeRy;
  
  // BOTH EYES 
  // Eyelid top size
@@ -178,39 +178,6 @@
  bool laughToggle = 1;
  
  
-
-
- // u8g2 wrapper functions
- void display_clearDisplay()
-{
-  u8g2.clearBuffer();   
-    
-}
-void display_fillRoundRect(int x,int y,int w, int h, int r, int color)
-{
-  u8g2.setDrawColor(color);
-  
-  //behavior is not defined if r is smaller than the height or width,
-  if( w<2*(r+1) )
-  {
-    r = (w/2)-1;
-  }
-  if( h<2*(r+1) )
-  {
-    r = (h/2)-1;
-  }
-  //check if height and width are valid when calling drawRBox
-  u8g2.drawRBox(x,y,w<1?1:w,h<1?1:h,r);
-}
-void display_display()
-{
-  u8g2.sendBuffer();
-}
-void display_fillTriangle(int x0,int y0, int x1,int y1,int x2,int y2, int color)
-{
-  u8g2.setDrawColor(color);
-  u8g2.drawTriangle(x0,y0,x1,y1,x2,y2);
-}
  //*********************************************************************************************
  //  GENERAL METHODS
  //*********************************************************************************************
@@ -219,8 +186,8 @@ void display_fillTriangle(int x0,int y0, int x1,int y1,int x2,int y2, int color)
  void begin(int width, int height, byte frameRate) {
    screenWidth = width; // OLED display width, in pixels
    screenHeight = height; // OLED display height, in pixels
-   display_clearDisplay(); // clear the display buffer
-   display_display(); // show empty screen
+   display.clearDisplay(); // clear the display buffer
+   display.display(); // show empty screen
    eyeLheightCurrent = 1; // start with closed eyes
    eyeRheightCurrent = 1; // start with closed eyes
    setFramerate(frameRate); // calculate frame interval based on defined frameRate
@@ -496,7 +463,6 @@ void display_fillTriangle(int x0,int y0, int x1,int y1,int x2,int y2, int color)
    //// PRE-CALCULATIONS - EYE SIZES AND VALUES FOR ANIMATION TWEENINGS ////
  
    // Vertical size offset for larger eyes when looking left or right (curious gaze)
-   Serial.println("Drawing Eyes...");
    if(curious){
      if(eyeLxNext<=10){eyeLheightOffset=8;}
      else if (eyeLxNext>=(getScreenConstraint_X()-10) && cyclops){eyeLheightOffset=8;}
@@ -549,9 +515,9 @@ void display_fillTriangle(int x0,int y0, int x1,int y1,int x2,int y2, int color)
    // Right eye border radius
    eyeRborderRadiusCurrent = (eyeRborderRadiusCurrent + eyeRborderRadiusNext)/2;
    
-   Serial.println("Drawing Eyes: Applying Macro...");
+ 
    //// APPLYING MACRO ANIMATIONS ////
-   
+ 
    if(autoblinker){
      if(millis() >= blinktimer){
      blink();
@@ -626,51 +592,51 @@ void display_fillTriangle(int x0,int y0, int x1,int y1,int x2,int y2, int color)
    }
  
    //// ACTUAL DRAWINGS ////
-   Serial.println("Drawing Eyes: Starting Drawing...");
-   display_clearDisplay(); // start with a blank screen
+ 
+   display.clearDisplay(); // start with a blank screen
  
    // Draw basic eye rectangles
-   display_fillRoundRect(eyeLx, eyeLy, eyeLwidthCurrent, eyeLheightCurrent, eyeLborderRadiusCurrent, MAINCOLOR); // left eye
+   display.fillRoundRect(eyeLx, eyeLy, eyeLwidthCurrent, eyeLheightCurrent, eyeLborderRadiusCurrent, MAINCOLOR); // left eye
    if (!cyclops){
-     display_fillRoundRect(eyeRx, eyeRy, eyeRwidthCurrent, eyeRheightCurrent, eyeRborderRadiusCurrent, MAINCOLOR); // right eye
+     display.fillRoundRect(eyeRx, eyeRy, eyeRwidthCurrent, eyeRheightCurrent, eyeRborderRadiusCurrent, MAINCOLOR); // right eye
    }
-   Serial.println("Drawing Eyes: 1");
+ 
    // Prepare mood type transitions
    if (tired){eyelidsTiredHeightNext = eyeLheightCurrent/2; eyelidsAngryHeightNext = 0;} else{eyelidsTiredHeightNext = 0;}
    if (angry){eyelidsAngryHeightNext = eyeLheightCurrent/2; eyelidsTiredHeightNext = 0;} else{eyelidsAngryHeightNext = 0;}
    if (happy){eyelidsHappyBottomOffsetNext = eyeLheightCurrent/2;} else{eyelidsHappyBottomOffsetNext = 0;}
-   Serial.println("Drawing Eyes: 2");
+ 
    // Draw tired top eyelids 
      eyelidsTiredHeight = (eyelidsTiredHeight + eyelidsTiredHeightNext)/2;
      if (!cyclops){
-       display_fillTriangle(eyeLx, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx, eyeLy+eyelidsTiredHeight-1, BGCOLOR); // left eye 
-       display_fillTriangle(eyeRx, eyeRy-1, eyeRx+eyeRwidthCurrent, eyeRy-1, eyeRx+eyeRwidthCurrent, eyeRy+eyelidsTiredHeight-1, BGCOLOR); // right eye
+       display.fillTriangle(eyeLx, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx, eyeLy+eyelidsTiredHeight-1, BGCOLOR); // left eye 
+       display.fillTriangle(eyeRx, eyeRy-1, eyeRx+eyeRwidthCurrent, eyeRy-1, eyeRx+eyeRwidthCurrent, eyeRy+eyelidsTiredHeight-1, BGCOLOR); // right eye
      } else {
        // Cyclops tired eyelids
-       display_fillTriangle(eyeLx, eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx, eyeLy+eyelidsTiredHeight-1, BGCOLOR); // left eyelid half
-       display_fillTriangle(eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy+eyelidsTiredHeight-1, BGCOLOR); // right eyelid half
+       display.fillTriangle(eyeLx, eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx, eyeLy+eyelidsTiredHeight-1, BGCOLOR); // left eyelid half
+       display.fillTriangle(eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy+eyelidsTiredHeight-1, BGCOLOR); // right eyelid half
      }
-     Serial.println("Drawing Eyes: 3");
+ 
    // Draw angry top eyelids 
      eyelidsAngryHeight = (eyelidsAngryHeight + eyelidsAngryHeightNext)/2;
      if (!cyclops){ 
-       display_fillTriangle(eyeLx, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy+eyelidsAngryHeight-1, BGCOLOR); // left eye
-       display_fillTriangle(eyeRx, eyeRy-1, eyeRx+eyeRwidthCurrent, eyeRy-1, eyeRx, eyeRy+eyelidsAngryHeight-1, BGCOLOR); // right eye
+       display.fillTriangle(eyeLx, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy+eyelidsAngryHeight-1, BGCOLOR); // left eye
+       display.fillTriangle(eyeRx, eyeRy-1, eyeRx+eyeRwidthCurrent, eyeRy-1, eyeRx, eyeRy+eyelidsAngryHeight-1, BGCOLOR); // right eye
      } else {
        // Cyclops angry eyelids
-       display_fillTriangle(eyeLx, eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy+eyelidsAngryHeight-1, BGCOLOR); // left eyelid half
-       display_fillTriangle(eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy+eyelidsAngryHeight-1, BGCOLOR); // right eyelid half
+       display.fillTriangle(eyeLx, eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy+eyelidsAngryHeight-1, BGCOLOR); // left eyelid half
+       display.fillTriangle(eyeLx+(eyeLwidthCurrent/2), eyeLy-1, eyeLx+eyeLwidthCurrent, eyeLy-1, eyeLx+(eyeLwidthCurrent/2), eyeLy+eyelidsAngryHeight-1, BGCOLOR); // right eyelid half
      }
-     Serial.println("Drawing Eyes: 4");
+ 
    // Draw happy bottom eyelids
      eyelidsHappyBottomOffset = (eyelidsHappyBottomOffset + eyelidsHappyBottomOffsetNext)/2;
-     display_fillRoundRect(eyeLx-1, (eyeLy+eyeLheightCurrent)-eyelidsHappyBottomOffset+1, eyeLwidthCurrent+2, eyeLheightDefault, eyeLborderRadiusCurrent, BGCOLOR); // left eye
+     display.fillRoundRect(eyeLx-1, (eyeLy+eyeLheightCurrent)-eyelidsHappyBottomOffset+1, eyeLwidthCurrent+2, eyeLheightDefault, eyeLborderRadiusCurrent, BGCOLOR); // left eye
      if (!cyclops){ 
-       display_fillRoundRect(eyeRx-1, (eyeRy+eyeRheightCurrent)-eyelidsHappyBottomOffset+1, eyeRwidthCurrent+2, eyeRheightDefault, eyeRborderRadiusCurrent, BGCOLOR); // right eye
+       display.fillRoundRect(eyeRx-1, (eyeRy+eyeRheightCurrent)-eyelidsHappyBottomOffset+1, eyeRwidthCurrent+2, eyeRheightDefault, eyeRborderRadiusCurrent, BGCOLOR); // right eye
      }
-     Serial.println("Drawing Eyes: 5");
-   display_display(); // show drawings on display
-   Serial.println("Drawing Eyes: DONE");
+ 
+   display.display(); // show drawings on display
+ 
  } // end of drawEyes method
  
  
