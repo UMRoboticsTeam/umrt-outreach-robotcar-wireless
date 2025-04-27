@@ -81,54 +81,54 @@
  //*********************************************************************************************
  
  // EYE LEFT - size and border radius
- byte eyeLwidthDefault = 36;
- byte eyeLheightDefault = 36;
- byte eyeLwidthCurrent = eyeLwidthDefault;
- byte eyeLheightCurrent = 1; // start with closed eye, otherwise set to eyeLheightDefault
- byte eyeLwidthNext = eyeLwidthDefault;
- byte eyeLheightNext = eyeLheightDefault;
- byte eyeLheightOffset = 0;
+ int eyeLwidthDefault = 36;
+ int eyeLheightDefault = 36;
+ int eyeLwidthCurrent = eyeLwidthDefault;
+ int eyeLheightCurrent = 1; // start with closed eye, otherwise set to eyeLheightDefault
+ int eyeLwidthNext = eyeLwidthDefault;
+ int eyeLheightNext = eyeLheightDefault;
+ int eyeLheightOffset = 0;
  // Border Radius
  byte eyeLborderRadiusDefault = 8;
  byte eyeLborderRadiusCurrent = eyeLborderRadiusDefault;
  byte eyeLborderRadiusNext = eyeLborderRadiusDefault;
  
  // EYE RIGHT - size and border radius
- byte eyeRwidthDefault = eyeLwidthDefault;
- byte eyeRheightDefault = eyeLheightDefault;
- byte eyeRwidthCurrent = eyeRwidthDefault;
- byte eyeRheightCurrent = 1; // start with closed eye, otherwise set to eyeRheightDefault
- byte eyeRwidthNext = eyeRwidthDefault;
- byte eyeRheightNext = eyeRheightDefault;
- byte eyeRheightOffset = 0;
+ int eyeRwidthDefault = eyeLwidthDefault;
+ int eyeRheightDefault = eyeLheightDefault;
+ int eyeRwidthCurrent = eyeRwidthDefault;
+ int eyeRheightCurrent = 1; // start with closed eye, otherwise set to eyeRheightDefault
+ int eyeRwidthNext = eyeRwidthDefault;
+ int eyeRheightNext = eyeRheightDefault;
+ int eyeRheightOffset = 0;
  // Border Radius
  byte eyeRborderRadiusDefault = 8;
  byte eyeRborderRadiusCurrent = eyeRborderRadiusDefault;
  byte eyeRborderRadiusNext = eyeRborderRadiusDefault;
  
  // EYE LEFT - Coordinates
- byte eyeLxDefault = ((screenWidth)-(eyeLwidthDefault+spaceBetweenDefault+eyeRwidthDefault))/2;
- byte eyeLyDefault = ((screenHeight-eyeLheightDefault)/2);
- byte eyeLx = eyeLxDefault;
- byte eyeLy = eyeLyDefault;
- byte eyeLxNext = eyeLx;
- byte eyeLyNext = eyeLy;
+ int eyeLxDefault = ((screenWidth)-(eyeLwidthDefault+spaceBetweenDefault+eyeRwidthDefault))/2;
+ int eyeLyDefault = ((screenHeight-eyeLheightDefault)/2);
+ int eyeLx = eyeLxDefault;
+ int eyeLy = eyeLyDefault;
+ int eyeLxNext = eyeLx;
+ int eyeLyNext = eyeLy;
  
  // EYE RIGHT - Coordinates
- byte eyeRxDefault = eyeLx+eyeLwidthCurrent+spaceBetweenDefault;
- byte eyeRyDefault = eyeLy;
- byte eyeRx = eyeRxDefault;
- byte eyeRy = eyeRyDefault;
- byte eyeRxNext = eyeRx;
- byte eyeRyNext = eyeRy;
+ int eyeRxDefault = eyeLx+eyeLwidthCurrent+spaceBetweenDefault;
+ int eyeRyDefault = eyeLy;
+ int eyeRx = eyeRxDefault;
+ int eyeRy = eyeRyDefault;
+ int eyeRxNext = eyeRx;
+ int eyeRyNext = eyeRy;
  
  // BOTH EYES 
  // Eyelid top size
- byte eyelidsHeightMax = eyeLheightDefault/2; // top eyelids max height
- byte eyelidsTiredHeight = 0;
- byte eyelidsTiredHeightNext = eyelidsTiredHeight;
- byte eyelidsAngryHeight = 0;
- byte eyelidsAngryHeightNext = eyelidsAngryHeight;
+ int eyelidsHeightMax = eyeLheightDefault/2; // top eyelids max height
+ int eyelidsTiredHeight = 0;
+ int eyelidsTiredHeightNext = eyelidsTiredHeight;
+ int eyelidsAngryHeight = 0;
+ int eyelidsAngryHeightNext = eyelidsAngryHeight;
  // Bottom happy eyelids offset
  byte eyelidsHappyBottomOffsetMax = (eyeLheightDefault/2)+3;
  byte eyelidsHappyBottomOffset = 0;
