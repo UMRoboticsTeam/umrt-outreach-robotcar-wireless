@@ -27,11 +27,11 @@ roboEyes roboEyes; // create eyes
 
 
 #define EN_A 5
-#define IN1_A 6
-#define IN2_A 7
+#define IN1_A 7
+#define IN2_A 6
 
-#define IN1_B 8
-#define IN2_B 9
+#define IN1_B 9
+#define IN2_B 8
 #define EN_B 11
 
 
@@ -265,47 +265,47 @@ void handleCmd102(int direction, int speed) {
   if (direction == 3) {
     // 3 - Turn Left
     myMotors.setSpeed(speed);
-    myMotors.backwardA();
-    myMotors.forwardB();
-
+    myMotors.forwardA();
+    myMotors.backwardB();
+    
     lookLeft();
   }
   if (direction == 4) {
     // 4 - Turn right
     myMotors.setSpeed(speed);
-    myMotors.forwardA();
-    myMotors.backwardB();
+    myMotors.backwardA();
+    myMotors.forwardB();
 
     lookRight();
   }
   if (direction == 5) {
     // 5 - Left Forward
-    myMotors.setSpeedA(speed / 2);
-    myMotors.setSpeedB(speed);
+    myMotors.setSpeedA(speed);
+    myMotors.setSpeedB(speed / 2);
     myMotors.forward();
 
     lookLeft();
   }
   if (direction == 6) {
     // 6 - Left Backward
-    myMotors.setSpeedA(speed / 2);
-    myMotors.setSpeedB(speed);
+    myMotors.setSpeedA(speed);
+    myMotors.setSpeedB(speed / 2);
     myMotors.backward();
 
     lookLeft();
   }
   if (direction == 7) {
     // 7 - Right Forward
-    myMotors.setSpeedA(speed);
-    myMotors.setSpeedB(speed / 2);
+    myMotors.setSpeedA(speed / 2);
+    myMotors.setSpeedB(speed);
     myMotors.forward();
 
     lookRight();
   }
   if (direction == 8) {
     // 8 - Right Backward
-    myMotors.setSpeedA(speed);
-    myMotors.setSpeedB(speed / 2);
+    myMotors.setSpeedA(speed / 2);
+    myMotors.setSpeedB(speed);
     myMotors.backward();
 
     lookRight();
