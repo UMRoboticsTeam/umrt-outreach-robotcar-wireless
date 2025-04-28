@@ -453,6 +453,7 @@
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
+                /* height: 200%; */
             }
 
             .image-container {
@@ -472,8 +473,12 @@
                 display: block;
             }
 
+            #stream-container {
+              /* resize: both; */
+            }
+
             #controls {
-                height: 30%;
+                /* height: 30%; */
                 border-top: 1px solid #ccc;
                 /* padding: 1rem; */
                 padding: 0.4rem 0;
@@ -482,6 +487,7 @@
                 /* align-items: center; */
                 justify-content: space-around;
                 user-select: none;
+                overflow: hidden;
             }
 
             .key-group {
@@ -1542,16 +1548,16 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // CONNOR REMEMBER TO DISABLE THIS TO DO STREAM
 
 
-    // view.src = `${streamUrl}/stream`
+    view.src = `${streamUrl}/stream`
 
 
-    var test_images = [
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/800px-SMPTE_Color_Bars.svg.png',
-      'https://i.ytimg.com/vi/6XUhutX4ank/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDOo_c3TYl3KREOuAdg8meP8oIYXA',
-      'https://play-lh.googleusercontent.com/ykJkrsa88dC8D4f-KPJ14APufc0I7fr69Zt1F4dHHJx8GFoKxzG_v6K5egssEcMrwprq=s256-rw',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Animated_Wallpaper_Windows_10_-_Wallpaper_Engine.gif/1200px-Animated_Wallpaper_Windows_10_-_Wallpaper_Engine.gif'
-    ]
-    view.src = test_images[Math.floor(Math.random() * test_images.length)];
+    // var test_images = [
+    //   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/800px-SMPTE_Color_Bars.svg.png',
+    //   'https://i.ytimg.com/vi/6XUhutX4ank/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDOo_c3TYl3KREOuAdg8meP8oIYXA',
+    //   'https://play-lh.googleusercontent.com/ykJkrsa88dC8D4f-KPJ14APufc0I7fr69Zt1F4dHHJx8GFoKxzG_v6K5egssEcMrwprq=s256-rw',
+    //   'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Animated_Wallpaper_Windows_10_-_Wallpaper_Engine.gif/1200px-Animated_Wallpaper_Windows_10_-_Wallpaper_Engine.gif'
+    // ]
+    // view.src = test_images[Math.floor(Math.random() * test_images.length)];
 
 
 
