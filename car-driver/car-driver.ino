@@ -98,13 +98,14 @@ void loop() {
     roboEyes.setCuriosity(random(0, 2));
   }
 
-  // if (millis() > next_trigger_2) {
-  //   next_trigger_2 = millis() + 2000 + random(0, 3) * 1000; // 2s-4s
-  //   // change eye position
+  if (millis() > next_trigger_2) {
+    next_trigger_2 = millis() + 2000 + random(0, 3) * 1000; // 2s-4s
+    // move servo slightly (+-15deg)
 
-  //   roboEyes.eyeLxNext = random(roboEyes.getScreenConstraint_X());
-  //   roboEyes.eyeLyNext = random(roboEyes.getScreenConstraint_Y());
-  // }
+    // roboEyes.eyeLxNext = random(roboEyes.getScreenConstraint_X());
+    // roboEyes.eyeLyNext = random(roboEyes.getScreenConstraint_Y());
+    HeadServo.write(random(75, 106));
+  }
   
 
   // Update robot eyes
@@ -360,19 +361,23 @@ void lookStraight() {
   roboEyes.idleAnimationTimer = -1; // hold idle animation
   roboEyes.setPosition('X');
   HeadServo.write(90);
+  next_trigger_2 = 0;  // continue servo animation
 }
 void lookLeft() {
   roboEyes.idleAnimationTimer = -1; // hold idle animation
   roboEyes.setPosition(W);
   HeadServo.write(150);
+  next_trigger_2 = -1;  // hold servo animation
 }
 void lookRight() {
   roboEyes.idleAnimationTimer = -1; // hold idle animation
   roboEyes.setPosition(E);
   HeadServo.write(30);
+  next_trigger_2 = -1;  // hold servo animation
 }
 void lookIdle() {
   // continue idle animation
   roboEyes.idleAnimationTimer = 0;  // resume idle animation
   HeadServo.write(90);
+  next_trigger_2 = 0; // continue servo animation
 }
