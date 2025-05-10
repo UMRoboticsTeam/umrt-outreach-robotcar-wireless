@@ -319,7 +319,7 @@ void handleCmd102(int direction, int speed) {
     // myMotors.setSpeedA(speed);
     // myMotors.setSpeedB(speed / 2);
     // myMotors.forward();
-    AppMotor.DeviceDriverSet_Motor_control(true, speed, true, speed / 2, true);
+    AppMotor.DeviceDriverSet_Motor_control(true, speed, true, speed / 4, true);
 
     lookLeft();
   }
@@ -328,7 +328,7 @@ void handleCmd102(int direction, int speed) {
     // myMotors.setSpeedA(speed);
     // myMotors.setSpeedB(speed / 2);
     // myMotors.backward();
-    AppMotor.DeviceDriverSet_Motor_control(false, speed, false, speed / 2, true);
+    AppMotor.DeviceDriverSet_Motor_control(false, speed, false, speed / 4, true);
 
     lookLeft();
   }
@@ -337,7 +337,7 @@ void handleCmd102(int direction, int speed) {
     // myMotors.setSpeedA(speed / 2);
     // myMotors.setSpeedB(speed);
     // myMotors.forward();
-    AppMotor.DeviceDriverSet_Motor_control(true, speed / 2, true, speed, true);
+    AppMotor.DeviceDriverSet_Motor_control(true, speed / 4, true, speed, true);
 
     lookRight();
   }
@@ -346,7 +346,7 @@ void handleCmd102(int direction, int speed) {
     // myMotors.setSpeedA(speed / 2);
     // myMotors.setSpeedB(speed);
     // myMotors.backward();
-    AppMotor.DeviceDriverSet_Motor_control(false, speed / 2, false, speed, true);
+    AppMotor.DeviceDriverSet_Motor_control(false, speed / 4, false, speed, true);
 
     lookRight();
   }
