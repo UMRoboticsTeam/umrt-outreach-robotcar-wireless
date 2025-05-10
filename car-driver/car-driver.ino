@@ -19,30 +19,36 @@
 #define OLED_RESET -1
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-#include "L298NX2.h"
+// #include "L298NX2.h"
+#include "motor_driver.h"
+DeviceDriverSet_Motor AppMotor;
 
 #include "FluxGarage_RoboEyes.h"  // include after initializing display
 roboEyes roboEyes; // create eyes
 
 
 
-#define EN_A 5
-#define IN1_A 7
-#define IN2_A 6
+// #define EN_A 5
+// #define IN1_A 7
+// #define IN2_A 6
 
-#define IN1_B 9
-#define IN2_B 8
-#define EN_B 11
+// #define IN1_B 9
+// #define IN2_B 8
+// #define EN_B 11
 
 
-#define ServoPin 3
+#define SERVO_PIN 11
 
 
 // Initialize both motors
-L298NX2 myMotors(EN_A, IN1_A, IN2_A, EN_B, IN1_B, IN2_B);
+// L298NX2 myMotors(EN_A, IN1_A, IN2_A, EN_B, IN1_B, IN2_B);
+
+
 Servo HeadServo;
 
 void setup() {
+
+  // wdt_reset();
   // Increase PWM frequency for Timer 1 (pins 9 and 10)
   // TCCR1B = TCCR1B & 0b11111000 | 0x01; // Set Timer 1 to ~31kHz
 
@@ -53,7 +59,9 @@ void setup() {
   Serial.begin(9600);
 
 
-  HeadServo.attach(ServoPin);
+  AppMotor.DeviceDriverSet_Motor_Init();
+
+  HeadServo.attach(SERVO_PIN);
   HeadServo.write(90);
 
   // OLED Display
@@ -174,36 +182,55 @@ void handleCmdJson() {
 
 void handleCmd1(int selection, int speed, int direction) {
 
-  if (direction == 0) {
-    if (selection != 2) {
-      // Left Side
-      myMotors.setSpeedA(speed);
-      myMotors.forwardA();
+  // if (direction == 0) {
+  //   if (selection != 2) {
+  //     // Left Side
+  //     // myMotors.setSpeedA(speed);
+  //     // myMotors.forwardA();
+  //     // AppMotor.DeviceDriverSet_Motor_control(true, speed, false, speed, true);
 
-      lookLeft();
-    } 
-    if (selection != 1) {
-      // Right Side
-      myMotors.setSpeedB(speed);
-      myMotors.forwardB();
+  //     lookLeft();
+  //   } 
+  //   if (selection != 1) {
+  //     // Right Side
+  //     // myMotors.setSpeedB(speed);
+  //     // myMotors.forwardB();
+  //     // AppMotor.DeviceDriverSet_Motor_control(false, speed, true, speed, true);
 
-      lookRight();
+  //     lookRight();
+  //   }
+  // }
+  // else {
+  //   if (selection != 2) {
+  //     // Left Side
+  //     // myMotors.setSpeedA(speed);
+  //     // myMotors.backwardA();
+
+  //     lookLeft();
+  //   } 
+  //   if (selection != 1) {
+  //     // Right Side
+  //     // myMotors.setSpeedB(speed);
+  //     // myMotors.backwardB();
+
+  //     lookRight();
+  //   }
+  // }
+
+
+  // TO DO:
+  // IMPLEMENT THIS PROPERLY
+  // RIGHT NOW ITS ONLY BEING USED FOR STOPPING THE MOTORS
+  // SO THIS IS FINE
+  if (selection == 0) {
+    // all motors
+    if (direction == 1) {
+      // clockwise?
+      AppMotor.DeviceDriverSet_Motor_control(true, speed, true, speed, true);
     }
-  }
-  else {
-    if (selection != 2) {
-      // Left Side
-      myMotors.setSpeedA(speed);
-      myMotors.backwardA();
-
-      lookLeft();
-    } 
-    if (selection != 1) {
-      // Right Side
-      myMotors.setSpeedB(speed);
-      myMotors.backwardB();
-
-      lookRight();
+    else {
+      // counterclockwise?
+      AppMotor.DeviceDriverSet_Motor_control(false, speed, false, speed, true);
     }
   }
   
@@ -213,30 +240,34 @@ void handleCmd1(int selection, int speed, int direction) {
 
 void handleCmd3(int direction, int speed) {
 
-  myMotors.setSpeed(speed);
+  // myMotors.setSpeed(speed);
   if (direction == 3) {
     // 3 - forward
-    myMotors.forward();
+    // myMotors.forward();
+    AppMotor.DeviceDriverSet_Motor_control(true, speed, true, speed, true);
 
     lookStraight();
   }
   else if (direction == 4) {
     // 4 - backward
-    myMotors.backward();
+    // myMotors.backward();
+    AppMotor.DeviceDriverSet_Motor_control(false, speed, false, speed, true);
 
     lookStraight();
   }
   else if (direction == 1) {
     // 1 - turn left
-    myMotors.backwardA();
-    myMotors.forwardB();
+    // myMotors.backwardA();
+    // myMotors.forwardB();
+    AppMotor.DeviceDriverSet_Motor_control(true, speed, false, speed, true);
 
     lookLeft();
   }
   else if (direction == 2) {
     // 2 - turn right
-    myMotors.forwardA();
-    myMotors.backwardB();
+    // myMotors.forwardA();
+    // myMotors.backwardB();
+    AppMotor.DeviceDriverSet_Motor_control(false, speed, true, speed, true);
 
     lookRight();
   }
@@ -250,63 +281,71 @@ void handleCmd102(int direction, int speed) {
   // myMotors.setSpeed(speed);
   if (direction == 1) {
     // 1 - Forward
-    myMotors.setSpeed(speed);
-    myMotors.forward();
+    // myMotors.setSpeed(speed);
+    // myMotors.forward();
+    AppMotor.DeviceDriverSet_Motor_control(true, speed, true, speed, true);
 
     lookStraight();
   }
   if (direction == 2) {
     // 2 - Backward
-    myMotors.setSpeed(speed);
-    myMotors.backward();
+    // myMotors.setSpeed(speed);
+    // myMotors.backward();
+    AppMotor.DeviceDriverSet_Motor_control(false, speed, false, speed, true);
 
     lookStraight();
   }
   if (direction == 3) {
     // 3 - Turn Left
-    myMotors.setSpeed(speed);
-    myMotors.forwardA();
-    myMotors.backwardB();
+    // myMotors.setSpeed(speed);
+    // myMotors.forwardA();
+    // myMotors.backwardB();
+    AppMotor.DeviceDriverSet_Motor_control(true, speed, false, speed, true);
     
     lookLeft();
   }
   if (direction == 4) {
     // 4 - Turn right
-    myMotors.setSpeed(speed);
-    myMotors.backwardA();
-    myMotors.forwardB();
+    // myMotors.setSpeed(speed);
+    // myMotors.backwardA();
+    // myMotors.forwardB();
+    AppMotor.DeviceDriverSet_Motor_control(false, speed, true, speed, true);
 
     lookRight();
   }
   if (direction == 5) {
     // 5 - Left Forward
-    myMotors.setSpeedA(speed);
-    myMotors.setSpeedB(speed / 2);
-    myMotors.forward();
+    // myMotors.setSpeedA(speed);
+    // myMotors.setSpeedB(speed / 2);
+    // myMotors.forward();
+    AppMotor.DeviceDriverSet_Motor_control(true, speed, true, speed / 2, true);
 
     lookLeft();
   }
   if (direction == 6) {
     // 6 - Left Backward
-    myMotors.setSpeedA(speed);
-    myMotors.setSpeedB(speed / 2);
-    myMotors.backward();
+    // myMotors.setSpeedA(speed);
+    // myMotors.setSpeedB(speed / 2);
+    // myMotors.backward();
+    AppMotor.DeviceDriverSet_Motor_control(false, speed, false, speed / 2, true);
 
     lookLeft();
   }
   if (direction == 7) {
     // 7 - Right Forward
-    myMotors.setSpeedA(speed / 2);
-    myMotors.setSpeedB(speed);
-    myMotors.forward();
+    // myMotors.setSpeedA(speed / 2);
+    // myMotors.setSpeedB(speed);
+    // myMotors.forward();
+    AppMotor.DeviceDriverSet_Motor_control(true, speed / 2, true, speed, true);
 
     lookRight();
   }
   if (direction == 8) {
     // 8 - Right Backward
-    myMotors.setSpeedA(speed / 2);
-    myMotors.setSpeedB(speed);
-    myMotors.backward();
+    // myMotors.setSpeedA(speed / 2);
+    // myMotors.setSpeedB(speed);
+    // myMotors.backward();
+    AppMotor.DeviceDriverSet_Motor_control(false, speed / 2, false, speed, true);
 
     lookRight();
   }

@@ -14,7 +14,7 @@
 #include "DeviceDriverSet_xxx0.h"
 
 #include "ArduinoJson-v6.11.1.h" //ArduinoJson
-#include "MPU6050_getdata.h"
+// #include "MPU6050_getdata.h"
 
 #define _is_print 1
 #define _Test_print 0
@@ -22,7 +22,7 @@
 ApplicationFunctionSet Application_FunctionSet;
 
 /*Hardware device object list*/
-MPU6050_getdata AppMPU6050getdata;
+// MPU6050_getdata AppMPU6050getdata;
 DeviceDriverSet_RBGLED AppRBG_LED;
 DeviceDriverSet_Key AppKey;
 DeviceDriverSet_ITR20001 AppITR20001;
@@ -113,8 +113,8 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Init(void)
   AppIRrecv.DeviceDriverSet_IRrecv_Init();
   AppULTRASONIC.DeviceDriverSet_ULTRASONIC_Init();
   AppITR20001.DeviceDriverSet_ITR20001_Init();
-  res_error = AppMPU6050getdata.MPU6050_dveInit();
-  AppMPU6050getdata.MPU6050_calibration();
+  // res_error = AppMPU6050getdata.MPU6050_dveInit();
+  // AppMPU6050getdata.MPU6050_calibration();
 
   // while (Serial.read() >= 0)
   // {
@@ -158,7 +158,7 @@ static void ApplicationFunctionSet_SmartRobotCarLinearMotionControl(SmartRobotCa
   {
     AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_void, /*speed_A*/ 0,
                                            /*direction_B*/ direction_void, /*speed_B*/ 0, /*controlED*/ control_enable); //Motor control
-    AppMPU6050getdata.MPU6050_dveGetEulerAngles(&Yaw);
+    // AppMPU6050getdata.MPU6050_dveGetEulerAngles(&Yaw);
     is_time = millis();
   }
   //if (en != directionRecord)
@@ -902,7 +902,7 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Standby(void)
         if (cout > 10)
         {
           is_ED = false;
-          AppMPU6050getdata.MPU6050_calibration();
+          // AppMPU6050getdata.MPU6050_calibration();
         }
       }
     }

@@ -1808,24 +1808,25 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
         if (keyList.a && !keyList.d) {
           // FORWARD AND LEFT
-          jsonData = {"N": 102, "D1": 5, "D2": car_state.speed};
-          // jsonData = `102 5 ${car_state.speed}`;
+          // jsonData = {"N": 102, "D1": 5, "D2": car_state.speed};
+          jsonData = `102 5 ${car_state.speed}`;
           
         }
         else if (!keyList.a && keyList.d) {
           // FORWARD AND RIGHT
-          jsonData = {"N": 102, "D1": 7, "D2": car_state.speed};
-          // jsonData = `102 7 ${car_state.speed}`;
+          // jsonData = {"N": 102, "D1": 7, "D2": car_state.speed};
+          jsonData = `102 7 ${car_state.speed}`;
         }
         else {
           // JUST FORWARD
           // D1=0 : all motors
           // D3 : 1 clockwise, 2 counterclockwise
           // jsonData = {"H": 1, "N": 1, "D1": 0, "D2": car_state.speed, "D3": 1}
-
           // jsonData = {"N": 102, "D1": 1, "D2": car_state.speed};  // only turns one side??
-          jsonData = {"H": 1, "N": 3, "D1": 3, "D2": car_state.speed};
-          // jsonData = `3 3 ${car_state.speed}`;
+
+
+          // jsonData = {"H": 1, "N": 3, "D1": 3, "D2": car_state.speed};
+          jsonData = `3 3 ${car_state.speed}`;
 
         }
       }
@@ -1833,53 +1834,53 @@ document.addEventListener('DOMContentLoaded', function (event) {
       else if (keyList.s) {
         if (keyList.a && !keyList.d) {
           // REVERSE AND LEFT
-          jsonData = {"N": 102, "D1": 6, "D2": car_state.speed};
-          // jsonData = `102 6 ${car_state.speed}`;
+          // jsonData = {"N": 102, "D1": 6, "D2": car_state.speed};
+          jsonData = `102 6 ${car_state.speed}`;
         }
         else if (!keyList.a && keyList.d) {
           // REVERSE AND RIGHT
-          jsonData = {"N": 102, "D1": 8, "D2": car_state.speed};
-          // jsonData = `102 8 ${car_state.speed}`;
+          // jsonData = {"N": 102, "D1": 8, "D2": car_state.speed};
+          jsonData = `102 8 ${car_state.speed}`;
         }
         else {
           // JUST REVERSE
           // jsonData = {"N": 102, "D1": 2, "D2": car_state.speed}; // only turns one side for some reason
 
-          jsonData = {"H": 1, "N": 3, "D1": 4, "D2": car_state.speed};
-          // jsonData = `3 4 ${car_state.speed}`;
+          // jsonData = {"H": 1, "N": 3, "D1": 4, "D2": car_state.speed};
+          jsonData = `3 4 ${car_state.speed}`;
         }
       }
 
       else if (keyList.a && !keyList.d) {
         // ROTATE LEFT
-        jsonData = {"N": 102, "D1": 3, "D2": car_state.speed};
-        // jsonData = `102 3 ${car_state.speed}`;
+        // jsonData = {"N": 102, "D1": 3, "D2": car_state.speed};
+        jsonData = `102 3 ${car_state.speed}`;
       }
 
       else if (!keyList.a && keyList.d) {
         // ROTATE RIGHT
-        jsonData = {"N": 102, "D1": 4, "D2": car_state.speed};
-        // jsonData = `102 4 ${car_state.speed}`;
+        // jsonData = {"N": 102, "D1": 4, "D2": car_state.speed};
+        jsonData = `102 4 ${car_state.speed}`;
       }
 
       else {
         // stop
-        jsonData = {"H": 1, "N": 1, "D1": 0, "D2": 0, "D3": 1};
-        // jsonData = `1 0 0 1`;
+        // jsonData = {"H": 1, "N": 1, "D1": 0, "D2": 0, "D3": 1};
+        jsonData = `1 0 0 1`;
       }
 
     }
     else {
       // also stop
-      jsonData = {"H": 1, "N": 1, "D1": 0, "D2": 0, "D3": 1};
-      // jsonData = `1 0 0 1`;
+      // jsonData = {"H": 1, "N": 1, "D1": 0, "D2": 0, "D3": 1};
+      jsonData = `1 0 0 1`;
     }
 
 
 
     if (jsonData) {
-      sendJsonCommand(jsonData);
-      // sendSerialCmd(jsonData);
+      // sendJsonCommand(jsonData);
+      sendSerialCmd(jsonData);
     }
   }
 
@@ -1950,13 +1951,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     // emergency stop
     if (event.key === 'x' || event.key === 'z' || event.key === 'c') {
-      jsonData = {"H": 1, "N": 1, "D1": 0, "D2": 0, "D3": 1};
-      // jsonData = `1 0 0 1`;
+      // jsonData = {"H": 1, "N": 1, "D1": 0, "D2": 0, "D3": 1};
+      jsonData = `1 0 0 1`;
     }
 
     if (jsonData) {
-      sendJsonCommand(jsonData);
-      // sendSerialCmd(jsonData);
+      // sendJsonCommand(jsonData);
+      sendSerialCmd(jsonData);
     }
 
     var symkey = null;
