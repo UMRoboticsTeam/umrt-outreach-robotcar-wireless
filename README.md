@@ -1,5 +1,28 @@
-# umrt-outreach-robotcar-wireless
+# umrt-outreach-robotcar-wireless - elegoo-kit-face
 Showcase program for the outreach car with wireless camera and control with the Elegoo Smart Robot Car Kit v4.0
+
+The UI lets you control the car using the arrow keys and displays a POV through the car's camera.
+The UI also contains 3 text boxes intended for kids to decipher hidden messages and enter them into the computer. If the password is correct, the UI will display success, on fail it will display "access denied".
+
+## elegoo-kit-face
+This branch uses a modified version of the Elegoo Smart Robot Kit, replacing the ultrasonic sensor with an I2C OLED 128x64 Display.
+
+<!-- ![alt text](docs/face-car.png) -->
+<img src="docs/face-car.png" height="400">
+
+This branch also contains the 3D printable files needed for the display modification.
+
+### Additional Materials:
+* I2C OLED Display 128x64
+* 4x pin wires male to female
+
+
+The smart robot car kit shield contains a pin header for the gyroscope, which contains I2C communication pins A4 and A5. The gyroscope is not used in this program, so you can remove the gyroscope and use the pin header for OLED communication.
+
+<!-- ![alt text](image-1.png) -->
+<img src="docs/face-ui.png" height="400">
+
+
 
 ### Elegoo Smart Robot Car Kit v4.0
 
@@ -82,23 +105,15 @@ To run the decompression process (`camera_index.h` to `camera_index.html`):
 ![alt text](docs/wifi.png)
 
 3. Open a browser and connect to ```194.168.4.1```
-4. Click ```Start Stream``` to view live camera
-
-![alt text](docs/start_stream.png)
-
-5. Configure the camera settings or control the robot with your keyboard
+4. Configure settings by clicking the text in the top left
+5. control the robot with your keyboard
   
 | Key | Command |
 |---|-----|
-| W | Move Forward |
-| S | Move Backward |
-| A | Turn Left |
-| D | Turn Right |
-| Q | Turn Camera Left 30 deg |
-| E | Turn Camera Right 30 deg |
-| 1 | Set Speed LOW (55) |
-| 2 | Set Speed MED (155) |
-| 3 | Set Speed HIGH (255) |
+| Up | Move Forward |
+| Down | Move Backward |
+| Left | Turn Left |
+| Right | Turn Right |
 | Z, X, C | Emergency Stop |
 
 ## Troubleshooting:
