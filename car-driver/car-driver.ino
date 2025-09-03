@@ -145,8 +145,8 @@ void handleCmdJson() {
       Serial.println(inputString);
 
       // Parse the command
-      int command = 0, d1 = 0, d2 = 0, d3 = 0;
-      int parsed = sscanf(inputString.c_str(), "%d %d %d %d", &command, &d1, &d2, &d3);
+      int command = 0, d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+      int parsed = sscanf(inputString.c_str(), "%d %d %d %d %d", &command, &d1, &d2, &d3, &d4);
 
       if (parsed >= 1) {
         Serial.print(F("Command: "));
@@ -162,6 +162,10 @@ void handleCmdJson() {
             break;
           case 102:
             handleCmd102(d1, d2);
+            break;
+          
+          case 69:
+            handleCmd69(d1, d2, d3, d4);
             break;
           default:
             Serial.print(F("Unknown command: "));
@@ -234,6 +238,28 @@ void handleCmd1(int selection, int speed, int direction) {
       AppMotor.DeviceDriverSet_Motor_control(false, speed, false, speed, true);
     }
   }
+  if (selection == 1) {
+    // LEFT
+    if (direction == 1) {
+      // clockwise?
+      AppMotor.DeviceDriverSet_Motor_control(true, speed, direction_void, 0, true);
+    }
+    else {
+      // counterclockwise?
+      AppMotor.DeviceDriverSet_Motor_control(false, speed, direction_void, 0, true);
+    }
+  }
+  if (selection == 2) {
+    // RIGHT
+    if (direction == 1) {
+      // clockwise?
+      AppMotor.DeviceDriverSet_Motor_control(direction_void, 0, true, speed, true);
+    }
+    else {
+      // counterclockwise?
+      AppMotor.DeviceDriverSet_Motor_control(direction_void, 0, false, speed, true);
+    }
+  }
   
   if (speed == 0) {lookIdle();}
   Serial.println("Handled CMD 1");
@@ -275,6 +301,15 @@ void handleCmd3(int direction, int speed) {
 
   if (speed == 0) {lookIdle();}
   Serial.println("Handled CMD 3");
+}
+
+void handleCmd69(int dirA, int spdA, int dirB, int spdB) {
+
+  AppMotor.DeviceDriverSet_Motor_control(dirA, spdA, dirB, spdB, true);
+  
+  if (spdA == 0 && spdB == 0) {
+    lookIdle();
+  }
 }
 
 void handleCmd102(int direction, int speed) {
