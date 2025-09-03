@@ -116,5 +116,11 @@ To run the decompression process (`camera_index.h` to `camera_index.html`):
 | Right | Turn Right |
 | Z, X, C | Emergency Stop |
 
+Or connect a controller with a joystick! It can be used with one of them.  
+The program assumes you will use:
+* The first controller attached to the host device
+* The axes [0] and [1] published by the controller
+
+
 ## Troubleshooting:
 If input is a little laggy, try turning it off and on again
