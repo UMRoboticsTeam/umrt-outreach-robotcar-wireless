@@ -123,4 +123,6 @@ The program assumes you will use:
 
 
 ## Troubleshooting:
-If input is a little laggy, try turning it off and on again
+* If input is a little laggy: try turning it off and on again
+* If the motor driver is stuck: try resetting it
+* If the camera feed stops: try restarting car and browser
