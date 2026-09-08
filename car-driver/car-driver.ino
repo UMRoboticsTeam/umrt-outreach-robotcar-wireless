@@ -66,18 +66,18 @@ void setup() {
 
   // OLED Display
   
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;);
-  }
+  // if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+  //   Serial.println(F("SSD1306 allocation failed"));
+  //   for(;;);
+  // }
 
   // Startup robo eyes
-  roboEyes.begin(SCREEN_WIDTH, SCREEN_HEIGHT, 100); // screen-width, screen-height, max framerate - 60-100fps are good for smooth animations
-  roboEyes.setPosition(DEFAULT); // eye position should be middle center
-  roboEyes.close(); // start with closed eyes 
+  // roboEyes.begin(SCREEN_WIDTH, SCREEN_HEIGHT, 100); // screen-width, screen-height, max framerate - 60-100fps are good for smooth animations
+  // roboEyes.setPosition(DEFAULT); // eye position should be middle center
+  // roboEyes.close(); // start with closed eyes 
   
-  roboEyes.setAutoblinker(ON, 3, 2); // Start auto blinker animation cycle -> bool active, int interval, int variation -> turn on/off, set interval between each blink in full seconds, set range for random interval variation in full seconds
-  roboEyes.setIdleMode(ON, 2, 2); // Start idle animation cycle (eyes looking in random directions) -> turn on/off, set interval between each eye repositioning in full seconds, set range for random time interval variation in full seconds
+  // roboEyes.setAutoblinker(ON, 3, 2); // Start auto blinker animation cycle -> bool active, int interval, int variation -> turn on/off, set interval between each blink in full seconds, set range for random interval variation in full seconds
+  // roboEyes.setIdleMode(ON, 2, 2); // Start idle animation cycle (eyes looking in random directions) -> turn on/off, set interval between each eye repositioning in full seconds, set range for random time interval variation in full seconds
 } 
 
 
@@ -94,8 +94,8 @@ void loop() {
     
     // change eye shape
     // roboEyes.anim_laugh();
-    roboEyes.setMood(random(0, 2) * 3); // 0-Default, 1-Tired, 2-Angry, 3-Happy
-    roboEyes.setCuriosity(random(0, 2));
+    // roboEyes.setMood(random(0, 2) * 3); // 0-Default, 1-Tired, 2-Angry, 3-Happy
+    // roboEyes.setCuriosity(random(0, 2));
   }
 
   if (millis() > next_trigger_2) {
@@ -109,7 +109,7 @@ void loop() {
   
 
   // Update robot eyes
-  roboEyes.update();
+  // roboEyes.update();
   
   
 } 
