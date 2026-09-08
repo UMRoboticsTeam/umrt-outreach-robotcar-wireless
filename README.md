@@ -1,13 +1,43 @@
-# umrt-outreach-robotcar-wireless
+# umrt-outreach-robotcar-wireless - elegoo-kit-face
 Showcase program for the outreach car with wireless camera and control with the Elegoo Smart Robot Car Kit v4.0
+
+The UI lets you control the car using the arrow keys (or controller) and displays a POV through the car's camera.
+This repo also includes files to convert this into a POV soccer bot.
+
+## elegoo-kit-face
+This branch uses a modified version of the Elegoo Smart Robot Kit, replacing the ultrasonic sensor with an I2C OLED 128x64 Display.
+
+<!-- ![alt text](docs/face-car.png) -->
+<img src="docs/face-car.png" height="400">
+
+This branch also contains the 3D printable files needed for the display modification.
+
+### Additional Materials:
+* I2C OLED Display 128x64
+* 4x pin wires male to female
+* 3D Printed Parts (files under ./3d-models)
+
+
+The smart robot car kit shield contains a pin header for the gyroscope, which contains I2C communication pins A4 and A5. The gyroscope is not used in this program, so you can remove the gyroscope and use the pin header for OLED communication.
+
+<!-- ![alt text](image-1.png) -->
+<img src="docs/face-ui.png" height="300">
+
+### Soccer Bot
+<img src="docs/soccer-bot.jpg" height="300">
+
+*Soccer bot attechment in 3d-models/sumo_soccer_catch.3mf*
+
 
 ### Elegoo Smart Robot Car Kit v4.0
 
-![alt text](docs/smartrobotv4.0.png)
+<!-- ![alt text](docs/smartrobotv4.0.png) -->
+<img src="docs/smartrobotv4.0.png" height="200">
 
 ### Customized UI
 
-![alt text](docs/complete_ui.png)
+<!-- ![alt text](docs/complete_ui.png) -->
+<img src="docs/complete_ui.png" height="300">
 
 
 Has programs for:
@@ -30,11 +60,15 @@ The template programs change depending on your specific parts.
 
 
 
-# SmartRobotCarV4.0_V1_20230201
+# car-driver
 Arduino IDE Configuration:
 * Board: ```Arduino UNO```
 
-Nothing much has changed from the template code given by Elegoo
+**Features:**  
+* Adds OLED face functionality
+* Improved UART communication from ESP32
+* Added joystick motor control commands
+
 
 
 
@@ -55,9 +89,9 @@ The served HTML handles all of the controls functionality. Based on the input, i
 
 
 ## converter.py
-Quick tool to convert HTML into compressed GZ bytes
+Quick tool to convert HTML into compressed GZ bytes.
 
-To compress **camera_index.html** into **camera_index.h**
+Used to compress **camera_index.html** into **camera_index.h**, to be compiled into the ESP32 webserver.
 ```
 > python ./converter.py html_to_txt
 ```
@@ -82,24 +116,24 @@ To run the decompression process (`camera_index.h` to `camera_index.html`):
 ![alt text](docs/wifi.png)
 
 3. Open a browser and connect to ```194.168.4.1```
-4. Click ```Start Stream``` to view live camera
-
-![alt text](docs/start_stream.png)
-
-5. Configure the camera settings or control the robot with your keyboard
+4. Configure settings by clicking the text in the top left
+5. control the robot with your keyboard
   
 | Key | Command |
 |---|-----|
-| W | Move Forward |
-| S | Move Backward |
-| A | Turn Left |
-| D | Turn Right |
-| Q | Turn Camera Left 30 deg |
-| E | Turn Camera Right 30 deg |
-| 1 | Set Speed LOW (55) |
-| 2 | Set Speed MED (155) |
-| 3 | Set Speed HIGH (255) |
+| Up | Move Forward |
+| Down | Move Backward |
+| Left | Turn Left |
+| Right | Turn Right |
 | Z, X, C | Emergency Stop |
 
+Or connect a controller with a joystick! It can be used with one of them.  
+The program assumes you will use:
+* The first controller attached to the host device
+* The axes [0] and [1] published by the controller
+
+
 ## Troubleshooting:
-If input is a little laggy, try turning it off and on again
+* If input is a little laggy: try turning it off and on again
+* If the motor driver is stuck: try resetting it
+* If the camera feed stops: try restarting car and browser

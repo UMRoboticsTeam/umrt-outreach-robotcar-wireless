@@ -23,11 +23,11 @@ public:
 private:
   // const char *ssid = "ESP32_CAM";
   // const char *password = "elegoo2020";
-  // char *ssid = "UMRT-CAR-";
-  char *ssid = WIFI_SSID;
+  char *ssid = "UMRT-CAR-1";
+  // char *ssid = UMRT;
   //char *password = "elegoo2020";
-  // char *password = "";
-  char *password = WIFI_PWD;
+  char *password = "umrt2025";
+  // char *password = WIFI_PWD;
 };
 
 #endif
