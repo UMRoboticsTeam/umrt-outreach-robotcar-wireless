@@ -115,7 +115,7 @@ To run the decompression process (`camera_index.h` to `camera_index.html`):
 
 ![alt text](docs/wifi.png)
 
-3. Open a browser and connect to ```194.168.4.1```
+3. Open a browser and connect to ```192.168.4.1```
 4. Configure settings by clicking the text in the top left
 5. control the robot with your keyboard
   
